@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update City</title>
+</head>
+<body>
+<h1>Update City</h1>
+<form action="/admin/cities/{cityId}" method="post">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+    <input type="hidden" name="_method" value="put"/>
+
+    <label for="cityName">City Name:</label>
+    <input type="text" id="cityName" name="cityName" th:value="${city.cityName}" required>
+
+    <button type="submit">Update City</button>
+</form>
+</body>
+</html>

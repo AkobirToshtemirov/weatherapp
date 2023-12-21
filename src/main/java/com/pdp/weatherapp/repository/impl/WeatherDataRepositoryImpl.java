@@ -1,5 +1,6 @@
 package com.pdp.weatherapp.repository.impl;
 
+import com.pdp.weatherapp.entity.City;
 import com.pdp.weatherapp.entity.WeatherData;
 import com.pdp.weatherapp.mapper.WeatherDataRowMapper;
 import com.pdp.weatherapp.repository.WeatherDataRepository;
@@ -57,5 +58,14 @@ public class WeatherDataRepositoryImpl implements WeatherDataRepository {
         paramMap.put("id", weatherData.getId());
 
         namedParameterJdbcTemplate.update(sql, paramMap);
+    }
+
+    @Override
+    public List<WeatherData> findByCity(City city) {
+        String sql = "SELECT * FROM weather_data WHERE city_id = :cityId";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("cityId", city.getId());
+
+        return namedParameterJdbcTemplate.query(sql, paramMap, new WeatherDataRowMapper());
     }
 }

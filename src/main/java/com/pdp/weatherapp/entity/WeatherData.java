@@ -2,7 +2,8 @@ package com.pdp.weatherapp.entity;
 
 import lombok.*;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.time.LocalDate;
 
 @Getter

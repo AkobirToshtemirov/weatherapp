@@ -1,11 +1,15 @@
 package com.pdp.weatherapp.entity;
 
+import jakarta.persistence.ManyToMany;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,4 +23,7 @@ public class City {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String cityName;
+
+    @ManyToMany(mappedBy = "subscribedCities")
+    private Set<User> subscribedUsers = new HashSet<>();
 }

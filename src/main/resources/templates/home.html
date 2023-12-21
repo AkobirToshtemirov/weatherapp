@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>WeatherApp - Home</title>
+</head>
+<body>
+<header>
+    <h1>Welcome to WeatherApp</h1>
+    <p>Explore weather information for your favorite cities!</p>
+</header>
+
+<section>
+    <h2>About WeatherApp</h2>
+    <p>
+        WeatherApp is your go-to platform for accessing weather information.
+        Stay updated on the latest weather conditions in cities around the world.
+    </p>
+</section>
+
+<section>
+    <h2>User Actions</h2>
+    <ul>
+        <li><a th:href="@{/auth/login}">Login</a></li>
+        <li><a th:href="@{/auth/register}">Register</a></li>
+    </ul>
+</section>
+
+<footer>
+    <p>&copy; 2023 WeatherApp. All rights reserved.</p>
+</footer>
+</body>
+</html>

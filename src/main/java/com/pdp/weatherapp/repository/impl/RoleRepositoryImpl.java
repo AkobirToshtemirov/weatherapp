@@ -55,4 +55,24 @@ public class RoleRepositoryImpl implements RoleRepository {
 
         namedParameterJdbcTemplate.update(sql, paramMap);
     }
+
+    @Override
+    public List<Role> findRolesByUserId(Long userId) {
+        String sql = "SELECT r.* FROM role r " +
+                "JOIN user_roles ur ON r.id = ur.role_id " +
+                "WHERE ur.user_id = :userId";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("userId", userId);
+
+        return namedParameterJdbcTemplate.query(sql, paramMap, new RoleRowMapper());
+    }
+
+    @Override
+    public Role findByName(String roleName) {
+        String sql = "SELECT * FROM role WHERE roleName = :roleName";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("roleName", roleName);
+
+        return namedParameterJdbcTemplate.queryForObject(sql, paramMap, new RoleRowMapper());
+    }
 }

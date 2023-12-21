@@ -1,6 +1,6 @@
 package com.pdp.weatherapp.config.security;
 
-import com.pdp.springmvc.entity.User;
+import com.pdp.weatherapp.entity.User;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;

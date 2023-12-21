@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">>
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+</head>
+<body>
+<h1>User Profile</h1>
+
+<!-- Display User Information -->
+<h2>User Information</h2>
+<p>User ID: <span th:text="${loggedInUser.id}"></span></p>
+<p>Username: <span th:text="${loggedInUser.username}"></span></p>
+
+<!-- Display Subscribed Cities -->
+<h2>Subscribed Cities</h2>
+<ul>
+    <li th:each="city : ${loggedInUser.subscribedCities}" th:text="${city.cityName}"></li>
+</ul>
+
+<!-- Navigation Links -->
+<h2>Actions</h2>
+<ul>
+    <li><a th:href="@{/auth/logout}">Logout</a></li>
+    <li><a th:href="@{/user/update}">Update Profile</a></li>
+    <li><a th:href="@{/cities}">Cities</a></li>
+    <p sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/users/list}">Users List</a>
+    </li>
+    <p sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/admin/cities}">Add City</a>
+    </li>
+    <p sec:authorize="hasRole('ADMIN')">
+        <a th:href="@{/admin/cities}">Cities List</a>
+    </li>
+</ul>
+</body>
+</html>

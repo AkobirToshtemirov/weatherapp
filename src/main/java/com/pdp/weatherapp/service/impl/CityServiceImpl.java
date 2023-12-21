@@ -37,4 +37,9 @@ public class CityServiceImpl implements CityService {
     public void delete(City city) {
         cityRepository.delete(city);
     }
+
+    @Override
+    public void update(City city) {
+        cityRepository.update(city);
+    }
 }

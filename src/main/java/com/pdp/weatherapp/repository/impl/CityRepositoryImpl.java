@@ -54,4 +54,14 @@ public class CityRepositoryImpl implements CityRepository {
 
         namedParameterJdbcTemplate.update(sql, paramMap);
     }
+
+    @Override
+    public void update(City city) {
+        String sql = "UPDATE city SET cityName = :cityName WHERE id = :id";
+        Map<String, Object> paramMap = new HashMap<>();
+        paramMap.put("cityName", city.getCityName());
+        paramMap.put("id", city.getId());
+
+        namedParameterJdbcTemplate.update(sql, paramMap);
+    }
 }

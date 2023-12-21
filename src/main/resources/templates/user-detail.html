@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Detail</title>
+</head>
+<body>
+<h1>User Detail</h1>
+<div th:if="${user}">
+    <p>ID: <span th:text="${user.id}"></span></p>
+    <p>Username: <span th:text="${user.username}"></span></p>
+
+    <h2>Subscribed Cities:</h2>
+    <ul>
+        <li th:each="city : ${user.subscribedCities}" th:text="${city.cityName}"></li>
+    </ul>
+</div>
+<div th:unless="${user}">
+    <p>User not found!</p>
+</div>
+</body>
+</html>

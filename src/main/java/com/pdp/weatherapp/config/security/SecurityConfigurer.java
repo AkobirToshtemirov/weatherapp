@@ -1,5 +1,6 @@
 package com.pdp.weatherapp.config.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,9 +29,9 @@ public class SecurityConfigurer {
     };
 
     private final CustomAuthenticationFailureHandler authenticationFailureHandler;
-
     private final CustomUserDetailsService userDetailsService;
 
+    @Autowired
     public SecurityConfigurer(CustomAuthenticationFailureHandler authenticationFailureHandler, CustomUserDetailsService userDetailsService) {
         this.authenticationFailureHandler = authenticationFailureHandler;
         this.userDetailsService = userDetailsService;
@@ -39,7 +40,6 @@ public class SecurityConfigurer {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http.authorizeHttpRequests()
                 .requestMatchers(WHITE_LIST).permitAll()
                 .requestMatchers(WHITE_LIST_OF_STYLING).permitAll()
@@ -50,7 +50,7 @@ public class SecurityConfigurer {
                 .loginPage("/auth/login")
                 .usernameParameter("uname")
                 .passwordParameter("pswd")
-//                .defaultSuccessUrl("/todos/show", false)
+                .defaultSuccessUrl("/home", false)
                 .failureHandler(authenticationFailureHandler);
 
         http.logout()

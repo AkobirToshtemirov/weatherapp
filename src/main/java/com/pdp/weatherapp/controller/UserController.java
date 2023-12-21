@@ -1,6 +1,9 @@
 package com.pdp.weatherapp.controller;
 
+import com.pdp.weatherapp.entity.City;
 import com.pdp.weatherapp.entity.User;
+import com.pdp.weatherapp.entity.WeatherData;
+import com.pdp.weatherapp.service.CityService;
 import com.pdp.weatherapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,18 +12,20 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/users")
+@RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
+    private final CityService cityService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, CityService cityService) {
         this.userService = userService;
+        this.cityService = cityService;
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping
+    @GetMapping("/list")
     public List<User> getAllUsers() {
         return userService.findAll();
     }
@@ -28,25 +33,33 @@ public class UserController {
     @GetMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public User getUserById(@PathVariable Long id) {
-        // Logic to get a user by ID
-        // Example: userService.findById(id);
-        // Return the user or appropriate response
         return userService.findById(id);
     }
 
+    @PreAuthorize("@userService.isAuthorized(#user.id)")
     @PutMapping("/update")
     public String updateUser(@RequestBody User user) {
-        // Logic to update a user
-        // Example: userService.updateUser(user);
-        // Return success message or appropriate response
+        userService.update(user);
         return "User updated successfully";
     }
 
-    @PostMapping("/subscribe/{cityId}")
-    public String subscribeToCity(@PathVariable Long cityId) {
-        // Logic to subscribe to a city
-        // Example: userService.subscribeToCity(cityId);
-        // Return success message or appropriate response
+    @PostMapping("/{userId}/subscribe/{cityId}")
+    public String subscribeToCity(@PathVariable Long userId, @PathVariable Long cityId) {
+        User user = userService.findById(userId);
+        City city = cityService.findById(cityId);
+        userService.subscribeToCity(user, city);
         return "Subscribed to city successfully";
+    }
+
+    @GetMapping("/cities")
+    public List<City> getAllCities() {
+        return cityService.findAll();
+    }
+
+    @GetMapping("/{userId}/weather/{cityId}")
+    public List<WeatherData> getWeatherForCity(@PathVariable Long userId, @PathVariable Long cityId) {
+        User user = userService.findById(userId);
+        City city = cityService.findById(cityId);
+        return userService.getWeatherForCity(user, city);
     }
 }

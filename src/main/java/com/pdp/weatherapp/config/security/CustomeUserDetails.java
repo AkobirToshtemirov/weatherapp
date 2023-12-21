@@ -1,7 +1,7 @@
 package com.pdp.weatherapp.config.security;
 
-import com.pdp.springmvc.entity.Role;
-import com.pdp.springmvc.entity.User;
+import com.pdp.weatherapp.entity.Role;
+import com.pdp.weatherapp.entity.User;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,18 +24,13 @@ public class CustomeUserDetails implements UserDetails {
         Set<GrantedAuthority> authorities = new HashSet<>();
 
         for (Role role : user.getRoles())
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getCode()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRoleCode()));
 
         return authorities;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-
     public boolean isBlocked() {
-        return user.isBlocked();
+        return false;
     }
 
     @Override

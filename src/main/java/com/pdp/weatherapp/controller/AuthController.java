@@ -1,15 +1,18 @@
 package com.pdp.weatherapp.controller;
 
+import com.pdp.weatherapp.dto.UserRegisterDto;
+import com.pdp.weatherapp.entity.Role;
 import com.pdp.weatherapp.entity.User;
 import com.pdp.weatherapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import java.util.List;
 
 @Controller
-@RequestMapping("/v1/auth")
+@RequestMapping("/auth")
 public class AuthController {
     private final UserService userService;
 
@@ -18,27 +21,36 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping("/login")
-    public String login(@RequestBody User user) {
-        // Logic for user login, authentication, and token generation
-        // Example: userService.authenticateUser(user.getUsername(), user.getPassword());
-        // Return token or appropriate response
-        return "Login Successful";
+    @GetMapping("/register")
+    public String registerPage() {
+        return "auth/register";
     }
 
     @PostMapping("/register")
-    public String register(@RequestBody User user) {
-        // Logic for user registration
-        // Example: userService.registerUser(user);
-        // Return success message or appropriate response
-        return "Registration Successful";
+    public String register(@ModelAttribute UserRegisterDto dto) {
+        User user = User.builder()
+                .username(dto.username())
+                .password(dto.password())
+                .roles(List.of(Role.builder().roleCode("USER").build()))
+                .build();
+
+        userService.save(user);
+
+        return "redirect:/auth/login";
     }
 
-    @PostMapping("/logout")
-    public String logout() {
-        // Logic for user logout
-        // Example: userService.logoutUser();
-        // Return success message or appropriate response
-        return "Logout Successful";
+    @GetMapping("/login")
+    public ModelAndView loginPage(@RequestParam(required = false) String error) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("auth/login");
+        modelAndView.addObject("errorMessage", error);
+
+        return modelAndView;
     }
+
+    @GetMapping("/logout")
+    public String logoutPage() {
+        return "auth/logout";
+    }
+
 }
