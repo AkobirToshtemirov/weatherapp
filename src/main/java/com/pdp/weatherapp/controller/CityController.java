@@ -22,14 +22,14 @@ public class CityController {
     public String getAllCities(Model model) {
         List<City> cities = cityService.findAll();
         model.addAttribute("cities", cities);
-        return "list-cities"; // Thymeleaf will look for list-cities.html
+        return "list-cities";
     }
 
     @GetMapping("/{id}")
     public String getCityById(@PathVariable Long id, Model model) {
         City city = cityService.findById(id);
         model.addAttribute("city", city);
-        return "city-detail"; // Thymeleaf will look for city-detail.html
+        return "city-detail";
     }
 
     @PostMapping
